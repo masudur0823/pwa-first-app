@@ -4,13 +4,16 @@ import React, { useEffect, useState } from "react";
 
 export default function User() {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   // get data
   useEffect(() => {
+    setLoading(true);
     const url = "https://jsonplaceholder.typicode.com/posts";
     fetch(url)
       .then((res) => res.json())
-      .then((data) => setPosts(data));
+      .then((data) => setPosts(data))
+      .finally(() => setLoading(false));
   }, []);
 
   const handleAdd = () => {
@@ -30,6 +33,10 @@ export default function User() {
   };
   const handleUpdate = () => {};
   const handleDelete = () => {};
+
+  if (loading) {
+    return <h2 className="text-center p-5">Loading</h2>;
+  }
 
   return (
     <div>
